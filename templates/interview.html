@@ -3,68 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Interview - Interview Page</title>
+    <title>AI Interview</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="container-fluid main-bg vh-100 d-flex justify-content-center align-items-center">
-        <div class="interview-container text-center">
-            <!-- Title -->
-            <h1 class="title mb-4">Your AI Interview</h1>
+    <div class="container-fluid vh-100 d-flex align-items-center justify-content-center main-bg">
+        <div class="interview-container p-4 text-center">
+            <h1 class="title mb-3">Your AI Interview</h1>
+            <button id="start-interview-btn" class="btn btn-primary mb-4">Start My Interview</button>
+            <button id="end-interview-btn" class="btn btn-danger mb-4" style="display: none;">End Interview</button>
 
-            <!-- Start Interview Button -->
-            <div id="start-btn-container" class="button-container mb-3">
-                <button id="start-btn" class="btn custom-btn">Start My Interview</button>
-            </div>
-
-            <!-- End Interview Button -->
-            <div class="button-container mb-3 d-none" id="end-btn-container">
-                <button id="end-btn" class="btn custom-end-btn">End Interview</button>
-            </div>
-
-            <!-- Question Box -->
-            <div id="question-box" class="question-box p-3 mb-3 d-none">
-                <p id="current-question" class="text-light"></p>
-            </div>
-
-            <!-- Response Input -->
-            <div id="response-section" class="response-section d-none">
-                <textarea id="response-input" class="form-control custom-input mb-3" rows="3" placeholder="Enter your response here..."></textarea>
-                <button id="submit-response" class="btn custom-btn w-100">Submit Response</button>
+            <div id="question-area" style="display: none;">
+                <p id="current-question" class="question-text mb-4"></p>
+                <textarea id="response-input" class="form-control mb-3" rows="3" placeholder="Enter your response here..."></textarea>
+                <button id="submit-response-btn" class="btn btn-primary">Submit Response</button>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript Logic -->
     <script>
-        let questionCount = 0;
+        let questionCount = 0; // Tracks the number of questions
+        const startBtn = document.getElementById('start-interview-btn');
+        const endBtn = document.getElementById('end-interview-btn');
+        const questionArea = document.getElementById('question-area');
+        const currentQuestionEl = document.getElementById('current-question');
+        const responseInput = document.getElementById('response-input');
+        const submitBtn = document.getElementById('submit-response-btn');
 
-        // Start the interview
-        document.getElementById('start-btn').addEventListener('click', () => {
-            document.getElementById('start-btn-container').classList.add('d-none');
-            document.getElementById('end-btn-container').classList.remove('d-none');
-            document.getElementById('question-box').classList.remove('d-none');
-            document.getElementById('response-section').classList.remove('d-none');
-
+        // Start Interview Button
+        startBtn.addEventListener('click', () => {
+            startBtn.style.display = 'none';
+            endBtn.style.display = 'inline-block';
+            questionArea.style.display = 'block';
             fetchNextQuestion(""); // Fetch the first question
         });
 
-        // Submit a response
-        document.getElementById('submit-response').addEventListener('click', () => {
-            const response = document.getElementById('response-input').value.trim();
-
-            if (response === "") {
-                alert("Please enter your response before submitting.");
+        // Submit Response Button
+        submitBtn.addEventListener('click', () => {
+            const userResponse = responseInput.value.trim();
+            if (userResponse === "") {
+                alert("Please enter a response before submitting!");
                 return;
             }
 
-            document.getElementById('response-input').value = ""; // Clear the input field
-            fetchNextQuestion(response); // Fetch the next question based on the response
+            fetchNextQuestion(userResponse); // Fetch the next question
+            responseInput.value = ""; // Clear the response input field
         });
 
-        // Function to fetch the next question from the backend
+        // Function to fetch the next question
         function fetchNextQuestion(response) {
             fetch("/get_next_question", {
                 method: "POST",
@@ -78,19 +66,25 @@
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById('current-question').innerText = data.question;
-                questionCount++; // Increment the question count
+                if (data.question) {
+                    document.getElementById('current-question').innerText = data.question;
+                    questionCount++; // Increment the question count
+                } else {
+                    console.error("Error: No question received from backend.");
+                    document.getElementById('current-question').innerText = "Error fetching question!";
+                }
             })
-            .catch(error => console.error("Error:", error));
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById('current-question').innerText = "An error occurred. Please check your connection.";
+            });
         }
 
-        // End the interview
-        document.getElementById('end-btn').addEventListener('click', () => {
-            alert("Your interview has ended. Thank you!");
-            window.location.href = "/"; // Redirect to the home page
+        // End Interview Button
+        endBtn.addEventListener('click', () => {
+            alert("Thank you for participating in the interview!");
+            location.reload(); // Reload the page to reset the interview
         });
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
