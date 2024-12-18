@@ -3,8 +3,6 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
-print("OpenAI API Key:", os.getenv("OPENAI_API_KEY"))
-
 # Initialize Flask app
 app = Flask(__name__)
 
@@ -32,6 +30,12 @@ def take_interview(question_count, response):
     global job_level, candidate_years_of_experience, job_important_skills
 
     flag = False
+    skills_text = ""
+
+    if isinstance(job_important_skills, list):
+        skills_text = ', '.join(job_important_skills)
+    else:
+        skills_text = "Not provided"
 
     while not flag:
         # Initial easy question for the first round
@@ -43,7 +47,7 @@ def take_interview(question_count, response):
         question = (
             f"""Based on the candidate's last response: "{response}", adjust the difficulty as needed, making them 
             easier if the candidate answers badly, and increasing difficulty if they answer well. 
-            - Aim to gauge knowledge in key skills: {', '.join(job_important_skills)}.
+            - Aim to gauge knowledge in key skills: {skills_text}.
             - Tailor the question to their experience level ({candidate_years_of_experience} years) and job level ({job_level}).
             Only return the question."""
         )
