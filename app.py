@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
@@ -32,6 +32,13 @@ def take_interview(question_count, response):
     flag = False
     skills_text = ""
 
+    thread_id = session.get('thread_id')
+    assistant_id = session.get('assistant_id')
+
+    if not thread_id or not assistant_id:
+        raise Exception(
+            "Thread or assistant not initialized. Please restart the interview setup.")
+
     if isinstance(job_important_skills, list):
         skills_text = ', '.join(job_important_skills)
     else:
@@ -60,29 +67,24 @@ def take_interview(question_count, response):
 
         # Send the message to OpenAI assistant
         message = client.beta.threads.messages.create(
-            thread_id=thread.id,
+            thread_id=thread_id,
             role="user",
             content=content
         )
 
         # Run the assistant
         run = client.beta.threads.runs.create(
-            thread_id=thread.id,
-            assistant_id=assistant.id
+            thread_id=thread_id,
+            assistant_id=assistant_id
         )
 
-        # Retrieve the run status
+        # Fetch the assistant's response
         run = client.beta.threads.runs.retrieve(
-            thread_id=thread.id,
-            run_id=run.id
-        )
-
-        # Fetch messages and identify the next question
-        messages = client.beta.threads.messages.list(thread_id=thread.id)
+            thread_id=thread_id, run_id=run.id)
+        messages = client.beta.threads.messages.list(thread_id=thread_id)
 
         for i in messages.data:
-            if (i.assistant_id is not None) and (i.id not in ids_list) and (len(i.content) != 0):
-                ids_list.append(i.id)
+            if i.assistant_id is not None and len(i.content) != 0:
                 questions_asked.append(i.content[0].text.value)
                 question_count += 1
                 flag = True
@@ -128,7 +130,11 @@ def submit_role():
         topics related to JD skills and level if the candidate shows proficiency. Only return the question, nothing else.""",
         model="gpt-4o-mini"
     )
+
+    # Create a thread and store the thread.id in session
     thread = client.beta.threads.create()
+    session['thread_id'] = thread.id  # Save thread_id in session
+    session['assistant_id'] = assistant.id  # Save assistant_id in session
 
     # Redirect to the interview page
     return redirect(url_for('interview'))
@@ -142,17 +148,16 @@ def interview():
 
 @app.route('/get_next_question', methods=['POST'])
 def get_next_question():
-    """
-    Handles the retrieval of the next interview question based on the candidate's response.
-    """
     data = request.json
     question_count = data.get("question_count", 0)
     response = data.get("response", "")
 
     # Call the take_interview function
-    next_question = take_interview(question_count, response)
-
-    return jsonify({"question": next_question})
+    try:
+        next_question = take_interview(question_count, response)
+        return jsonify({"question": next_question})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == '__main__':
