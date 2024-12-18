@@ -3,6 +3,8 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
+print("OpenAI API Key:", os.getenv("OPENAI_API_KEY"))
+
 # Initialize Flask app
 app = Flask(__name__)
 
