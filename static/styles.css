@@ -46,9 +46,22 @@ body {
 }
 
 /* Placeholder Text Styling */
-.form-control.custom-input::placeholder {
-    color: #b0b0b5; /* Light grey placeholder text */
+::placeholder {
+    color: #a0a0a0; /* Light grey placeholder text */
     opacity: 1; /* Ensures visibility */
+}
+
+input::placeholder, textarea::placeholder {
+    color: #a0a0a0; /* Light gray placeholder */
+    opacity: 1;
+}
+
+input:-ms-input-placeholder, textarea:-ms-input-placeholder { /* IE 10+ */
+    color: #a0a0a0;
+}
+
+input::-ms-input-placeholder, textarea::-ms-input-placeholder { /* Edge */
+    color: #a0a0a0;
 }
 
 /* Focus State for Input Fields */
