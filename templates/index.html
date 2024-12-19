@@ -57,6 +57,42 @@
             outline: none;
         }
 
+        /* Placeholder Styling for #interview_role */
+        #interview_role::placeholder {
+            color: #ffffff7f; /* Light white with transparency */
+            opacity: 1;
+        }
+        #interview_role:-ms-input-placeholder { /* IE 10+ */
+            color: #ffffff7f;
+        }
+        #interview_role::-ms-input-placeholder { /* Edge */
+            color: #ffffff7f;
+        }
+
+        /* Placeholder Styling for #experience */
+        #experience::placeholder {
+            color: #ffffff7f; /* Light white with transparency */
+            opacity: 1;
+        }
+        #experience:-ms-input-placeholder { /* IE 10+ */
+            color: #ffffff7f;
+        }
+        #experience::-ms-input-placeholder { /* Edge */
+            color: #ffffff7f;
+        }
+
+        /* Placeholder Styling for #skills-input */
+        #skills-input::placeholder {
+            color: #ffffff7f; /* Light white with transparency */
+            opacity: 1;
+        }
+        #skills-input:-ms-input-placeholder { /* IE 10+ */
+            color: #ffffff7f;
+        }
+        #skills-input::-ms-input-placeholder { /* Edge */
+            color: #ffffff7f;
+        }
+
         /* Skills Tags */
         .skills-container {
             display: flex;
@@ -114,19 +150,19 @@
                 <!-- Role Input -->
                 <div class="mb-3">
                     <label for="interview_role" class="form-label">Interview Role</label>
-                    <input type="text" id="interview_role" name="interview_role" class="form-control custom-input" placeholder="E.g., HR Manager" required>
+                    <input type="text" id="interview_role" name="interview_role" class="form-control custom-input" placeholder="E.g. HR Manager" required>
                 </div>
 
                 <!-- Years of Experience -->
                 <div class="mb-3">
                     <label for="experience" class="form-label">Years of Experience</label>
-                    <input type="number" id="experience" name="candidate_years_of_experience" class="form-control custom-input" placeholder="E.g., 5" required>
+                    <input type="number" id="experience" name="candidate_years_of_experience" class="form-control custom-input" placeholder="E.g. 5" required>
                 </div>
 
                 <!-- Skills Input -->
                 <div class="mb-3">
                     <label for="skills" class="form-label">Important Skills</label>
-                    <input type="text" id="skills-input" class="form-control custom-input" placeholder="Press 'Enter' to add skills">
+                    <input type="text" id="skills-input" class="form-control custom-input" placeholder="Press 'Enter' to add a skill">
                     <div id="skills-container" class="skills-container"></div>
                 </div>
                 <input type="hidden" id="skills-hidden" name="job_important_skills">

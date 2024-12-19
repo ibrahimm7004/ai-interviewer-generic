@@ -15,11 +15,11 @@
             <button id="start-interview-btn" class="btn btn-primary mb-4">Start My Interview</button>
             <button id="end-interview-btn" class="btn btn-danger mb-4" style="display: none;">End Interview</button>
 
-            <div id="question-area" style="display: none;">
+            <div id="question-area" style="display: none; text-align: center;">
                 <p id="current-question" class="question-text mb-4"></p>
                 <textarea id="response-input" class="form-control mb-3" rows="3" placeholder="Enter your response here..."></textarea>
                 <button id="submit-response-btn" class="btn btn-primary">Submit Response</button>
-            </div>
+            </div>                      
         </div>
     </div>
 
@@ -37,6 +37,10 @@
             startBtn.style.display = 'none';
             endBtn.style.display = 'inline-block';
             questionArea.style.display = 'block';
+
+            // Set initial width for the textarea before questions start
+            responseInput.style.width = '600px';
+
             fetchNextQuestion(""); // Fetch the first question
         });
 
@@ -67,16 +71,18 @@
             .then(response => response.json())
             .then(data => {
                 if (data.question) {
-                    document.getElementById('current-question').innerText = data.question;
+                    // Reset textarea to dynamic sizing after questions start
+                    responseInput.style.width = ""; // Allow width to be controlled by CSS
+                    currentQuestionEl.innerText = data.question;
                     questionCount++; // Increment the question count
                 } else {
                     console.error("Error: No question received from backend.");
-                    document.getElementById('current-question').innerText = "Error fetching question!";
+                    currentQuestionEl.innerText = "Error fetching question!";
                 }
             })
             .catch(error => {
                 console.error("Error:", error);
-                document.getElementById('current-question').innerText = "An error occurred. Please check your connection.";
+                currentQuestionEl.innerText = "An error occurred. Please check your connection.";
             });
         }
 
@@ -85,6 +91,7 @@
             alert("Thank you for participating in the interview!");
             location.reload(); // Reload the page to reset the interview
         });
+
     </script>
 </body>
 </html>
