@@ -10,7 +10,7 @@ _(Note: Since this app is deployed using Heroku Eco Dynos, it may go into sleep 
 
 ## 📌 Overview
 
-**AI Interviewer (General)** is an AI-powered, dynamic interviewer designed to conduct real-time, interactive text-based interviews.
+**AI Interviewer** is an AI-powered, dynamic interviewer designed to conduct real-time, interactive text-based interviews.
 Unlike traditional interview bots, this AI dynamically adapts its questions based on candidate responses and predefined parameters, ensuring a fluid and engaging interview experience.
 
 ### ✨ Features
