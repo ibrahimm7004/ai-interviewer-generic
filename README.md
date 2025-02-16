@@ -24,7 +24,7 @@ Unlike traditional interview bots, this AI dynamically adapts its questions base
 - 🔄 **Adaptive Questioning:** The AI tailors its questions based on the candidate's responses and the initial parameters.
 - 📝 **Real-Time Text-to-Text Interaction:** The interview occurs entirely via text with no audio or video components.
 - 📊 **Dynamic Evaluation:** The AI processes candidate answers in real-time and generates follow-up questions accordingly.
-- 📁 **Parameter-Based Customization:** Users can set predefined parameters to influence the interview direction.
+- ⭐ **Parameter-Based Customization:** Users can set predefined parameters to influence the interview direction.
 
 ---
 
@@ -34,10 +34,10 @@ Unlike traditional interview bots, this AI dynamically adapts its questions base
    ![Input Parameters](static/input.png)
 2. **AI-Driven Interview:** The AI generates and refines questions in real-time based on responses.
 3. **Seamless Interaction:** Candidates engage in a natural conversation-like interview.
-   ![Interview Flow](static/interview.png)
-4. **Evaluation & Feedback:** The AI adapts and continues the interview based on responses.
 
-_(Replace `static/input.png` and `static/interview.png` with actual images demonstrating input parameters and interview flow.)_
+   ![Interview Flow](static/interview.png)
+
+4. **Evaluation & Feedback:** The AI adapts and continues the interview based on responses.
 
 ---
 
