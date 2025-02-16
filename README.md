@@ -1,4 +1,4 @@
-# AI Interviewer (General)
+# AI Interviewer
 
 ## 🌐 Live Demo
 
