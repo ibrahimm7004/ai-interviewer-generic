@@ -4,7 +4,7 @@
 
 [Click here to access the AI Interviewer](http://ai-interviewer-general.sorsx.com/)
 
-_(Note: Since this app is deployed using Heroku Eco Dynos, it may go into sleep mode when unused. The first question might give an error while fetching. Simply refresh the screen once, and it should function fine afterward.)_
+_(Note: Since this app is deployed using Heroku Eco Dynos, it may go into sleep mode when unused. **The first question might give an error while fetching. Simply refresh the screen once**, and it should function fine afterwards.)_
 
 ---
 
@@ -31,7 +31,9 @@ Unlike traditional interview bots, this AI dynamically adapts its questions base
 ## 🛠️ How It Works
 
 1. **User Input Parameters:** Candidates or recruiters provide key details to guide the interview.
+
    ![Input Parameters](static/input.png)
+
 2. **AI-Driven Interview:** The AI generates and refines questions in real-time based on responses.
 3. **Seamless Interaction:** Candidates engage in a natural conversation-like interview.
 
